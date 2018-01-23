@@ -1,12 +1,59 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 
 .App {
-    text-align: center;
-    .test{
-        color: rebeccapurple;
+  .app-header {
+    background-color: #468EB7;
+    height: 38px;
+    line-height: 38px;
+    color: #FFF;
+    font-size: 14px;
+    padding-left: 12px;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  .ant-layout-content {
+    margin: 40px 0px;
+    .type {
+      margin: 0 10px;
     }
+    .ant-input-lg {
+      width: 100px;
+    }
+    .center-line {
+      hr {
+        border: 1px solid gainsboro;
+      }
+    }
+    .bottom-content {
+      margin: 40px 200px;
+      .ant-card-head {
+        background-color: #468EB7;
+        color: #FFFFFF;
+        .ant-card-head-title {
+          color: #FFFFFF;
+        }
+        .anticon-form {
+          margin-left: -820px;
+          position: absolute;
+          margin-top: 4px;
+        }
+      }
+      .topic-list {
+        .add-button {
+          width: 100px;
+          height: 130px;
+          border: 1px solid #CCCCCC;
+          img {
+            width: 80px;
+            margin: 20px 10px;
+          }
+        }
+      }
+
+    }
+  }
 }
