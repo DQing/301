@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import {Layout, Input, Form, Checkbox, Card, Icon, Modal} from 'antd'
+import {Layout, Input, Form, Checkbox, Card, Icon, Modal, Table} from 'antd'
 import './App.less'
 import addButton from '../static/addButton.png';
 
 const {Header, Footer, Content} = Layout;
 
 const FormItem = Form.Item;
-const {TextArea} = Input
+const {TextArea} = Input;
 
 class App extends Component {
     constructor(props) {
@@ -15,11 +15,12 @@ class App extends Component {
             easy: '',
             general: '',
             difficult: '',
-            visible: false
+            visible: false,
+            selectTopics: []
         }
     }
 
-    onHandleChange() {
+    static onHandleChange() {
         document.getElementsByClassName("inputs-group")[0].removeAttribute("hidden")
     }
 
@@ -44,11 +45,15 @@ class App extends Component {
     }
 
     handleOk() {
-
+        this.setState({
+            visible: false
+        })
     }
 
     handleCancel() {
-
+        this.setState({
+            visible: false
+        })
     }
 
     render() {
@@ -62,6 +67,77 @@ class App extends Component {
                 xs: {span: 24},
                 sm: {span: 10},
             },
+        };
+        const dataSource = [
+            {
+                "_id": "1",
+                "title": "react",
+                "stack": "Javascript",
+                "creator": "admin",
+                "createTime": "2018-1-23",
+                "key": '1'
+            }, {
+                "_id": "2",
+                "title": "jersey",
+                "stack": "Java+Gradle",
+                "creator": "admin",
+                "createTime": "2018-1-23",
+                "key": '2'
+            }, {
+                "_id": "3",
+                "title": "react",
+                "stack": "Javascript",
+                "creator": "admin",
+                "createTime": "2018-1-23",
+                "key": '3'
+            }, {
+                "_id": "4",
+                "title": "react",
+                "stack": "Javascript",
+                "creator": "admin",
+                "createTime": "2018-1-23",
+                "key": '4'
+            }, {
+                "_id": "5",
+                "title": "react",
+                "stack": "Javascript",
+                "creator": "admin",
+                "createTime": "2018-1-23",
+                "key": '5'
+            },
+        ];
+        const columns = [
+            {
+                title: '试卷名称',
+                dataIndex: 'title',
+                key: 'title'
+            },
+
+            {
+                title: '题目类型',
+                dataIndex: 'stack',
+                key: 'stack'
+            },
+
+            {
+                title: '创建人',
+                dataIndex: 'creator',
+                key: 'creator'
+            },
+
+            {
+                title: '试卷名称',
+                dataIndex: 'createTime',
+                key: 'createTime'
+            },
+        ]
+        const rowSelection = {
+            onChange: (selectedRowKeys, selectedRows) => {
+                this.setState({
+                    selectTopics: selectedRows
+                });
+                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            }
         };
         return (
             <div className="App">
@@ -100,7 +176,7 @@ class App extends Component {
                                     {...formItemLayout}
                                     label="逻辑题"
                                 >
-                                    <Checkbox onChange={this.onHandleChange}/>
+                                    <Checkbox onChange={App.onHandleChange}/>
                                     <div className="inputs-group" hidden>
                                         <span className="type">简单</span>
                                         <Input size="large" name="easy"
@@ -134,12 +210,27 @@ class App extends Component {
                                         <img src={addButton} alt="add-button"
                                              onClick={this.showTopicOption.bind(this)}/>
                                     </div>
+                                    <div className="add-topics">
+                                        {
+                                            this.state.selectTopics.map((item, index) => {
+                                                return <div className="topic" key={index}>
+                                                    <p className="title">{item.title}</p>
+                                                    <p className="stack">{item.stack}</p>
+                                                </div>
+                                            })
+                                        }
+                                    </div>
                                     <div className="modal">
                                         <Modal
-                                            title="Basic Modal"
+                                            title="试卷列表"
                                             visible={this.state.visible}
-                                            onOk={this.handleOk}
-                                            onCancel={this.handleCancel}/>
+                                            onOk={this.handleOk.bind(this)}
+                                            onCancel={this.handleCancel.bind(this)}>
+                                            <Table bordered hover striped
+                                                   rowSelection={rowSelection} dataSource={dataSource}
+                                                   columns={columns}
+                                                   pagination={false}/>
+                                        </Modal>
                                     </div>
                                 </div>
                             </Card>
@@ -148,7 +239,7 @@ class App extends Component {
                     <Footer>Footer</Footer>
                 </Layout>
             </div>
-        );
+        )
     }
 }
 

@@ -2,6 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  font-weight: 500;
+  line-height: 1.1;
 }
 
 .App {
@@ -47,9 +49,35 @@ body {
           width: 100px;
           height: 130px;
           border: 1px solid #CCCCCC;
+          display: inline-block;
           img {
             width: 80px;
             margin: 20px 10px;
+          }
+        }
+        .add-topics {
+          display: inline-block;
+          float: left;
+          .topic {
+            width: 100px;
+            height: 130px;
+            border: 1px solid #CCCCCC;
+            margin-right: 30px;
+            display: inline-block;
+            text-align: center;
+            .title {
+              background-color: #468EB7;
+              color: #FFFFFF;
+              border-radius: 2px;
+              padding: 3px 0px;
+            }
+            .stack {
+              border: 1px solid #468EB7;
+              border-radius: 10px;
+              font-size: 12px;
+              font-weight: normal;
+              margin: 0 10px;
+            }
           }
         }
       }
