@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Layout} from 'antd'
+import {Layout, Button} from 'antd'
 import './App.less'
 import TopContent from './TopContent/topContent';
 import BottomContent from './BottomContent/bottomContent';
@@ -24,7 +24,10 @@ class App extends Component {
                         </div>
                         <BottomContent/>
                     </Content>
-                    <Footer>Footer</Footer>
+                    <Footer>
+                        <Button className="button save">保存</Button>
+                        <Button className="button publish">发布</Button>
+                    </Footer>
                 </Layout>
             </div>
         )

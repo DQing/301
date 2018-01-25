@@ -13,7 +13,8 @@ class bottomContent extends Component {
             visible: false,
             selectTopics: [],
             title: "编程题",
-            input: false
+            input: false,
+            sectionList: []
         }
     }
 
@@ -58,6 +59,31 @@ class bottomContent extends Component {
         document.getElementById("input-title").removeAttribute("class", "input-header");
         document.getElementById("input-title").setAttribute("class", "read-only");
         this.setState({input: false})
+    }
+
+    onDeleteSection(index) {
+        const sectionList = this.state.sectionList
+        sectionList.pop()
+        this.setState({
+            sectionList: sectionList
+        })
+    }
+
+    addSection() {
+
+        const section = {
+            "type": "homeworkQuiz",
+            "title": "编程题",
+            "definition": {
+                "quizzes": ["12345"]
+            }
+        };
+        const sectionList = this.state.sectionList
+        sectionList.push(section)
+
+        this.setState({
+            sectionList: sectionList
+        })
     }
 
     render() {
@@ -134,43 +160,54 @@ class bottomContent extends Component {
         };
         return (
             <div className="bottom-content">
-                <Card extra={<span>
-                        <Icon type="form" onClick={this.onClickForm.bind(this)}/>
-                        <Icon type="delete"/>
-                    </span>}>
-                    <Input type="text" className="read-only" id="input-title"
-                           onChange={this.inputChange.bind(this)}
-                           onBlur={this.inputOnBlur.bind(this)}
-                           value={this.state.title}/>
-                    <div className="topic-list">
-                        <div className="add-button">
-                            <img src={addButton} alt="add-button"
-                                 onClick={this.showTopicOption.bind(this)}/>
-                        </div>
-                        <div className="add-topics">
-                            {
-                                this.state.selectTopics.map((item, index) => {
-                                    return <div className="topic" key={index}>
-                                        <p className="title"><span>{item.title}</span></p>
-                                        <p className="stack"><span>{item.stack}</span></p>
+                {
+                    this.state.sectionList.map((item, index) => {
+                        return <div className="section" key={index}>
+                            <Card extra={<span>
+                                    <Icon type="form" onClick={this.onClickForm.bind(this)}/>
+                                    <Icon type="delete" onClick={this.onDeleteSection.bind(this, index)}/>
+                                </span>}>
+                                <Input type="text" className="read-only" id="input-title"
+                                       onChange={this.inputChange.bind(this)}
+                                       onBlur={this.inputOnBlur.bind(this)}
+                                       value={item.title}/>
+                                <div className="topic-list">
+                                    <div className="add-button">
+                                        <img src={addButton} alt="add-button"
+                                             onClick={this.showTopicOption.bind(this)}/>
                                     </div>
-                                })
-                            }
+                                    <div className="add-topics">
+                                        {
+                                            this.state.selectTopics.map((item, index) => {
+                                                return <div className="topic" key={index}>
+                                                    <p className="title"><span>{item.title}</span></p>
+                                                    <p className="stack"><span>{item.stack}</span></p>
+                                                </div>
+                                            })
+                                        }
+                                    </div>
+                                    <div className="modal">
+                                        <Modal
+                                            title="试卷列表"
+                                            visible={this.state.visible}
+                                            onOk={this.handleOk.bind(this)}
+                                            onCancel={this.handleCancel.bind(this)}>
+                                            <Table bordered hover striped
+                                                   rowSelection={rowSelection} dataSource={dataSource}
+                                                   columns={columns}
+                                                   pagination={false}/>
+                                        </Modal>
+                                    </div>
+                                </div>
+                            </Card>
                         </div>
-                        <div className="modal">
-                            <Modal
-                                title="试卷列表"
-                                visible={this.state.visible}
-                                onOk={this.handleOk.bind(this)}
-                                onCancel={this.handleCancel.bind(this)}>
-                                <Table bordered hover striped
-                                       rowSelection={rowSelection} dataSource={dataSource}
-                                       columns={columns}
-                                       pagination={false}/>
-                            </Modal>
-                        </div>
-                    </div>
-                </Card>
+                    })
+                }
+                <div className="addSectionCard">
+                    <Card>
+                        <img src={addButton} alt="add-button" onClick={this.addSection.bind(this)}/>
+                    </Card>
+                </div>
             </div>
         )
     }
