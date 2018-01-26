@@ -78,11 +78,9 @@ class bottomContent extends Component {
                 "quizzes": ["12345"]
             }
         };
-        const sectionList = this.state.sectionList
-        sectionList.push(section)
-
+        this.state.sectionList.push(section)
         this.setState({
-            sectionList: sectionList
+            sectionList: this.state.sectionList
         })
     }
 

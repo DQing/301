@@ -1,38 +1,34 @@
 import React, {Component} from 'react'
-import {Form, Input, Checkbox} from 'antd'
+import {connect} from 'react-redux';
+import {Form, Input, Checkbox, InputNumber, Select} from 'antd'
+import * as programActions from '../../actions/program';
 
 import './topContent.less'
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
+const Option = Select.Option;
 
 class TopContent extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            easy: '',
-            general: '',
-            difficult: '',
+            disabled: true,
+            programList: ["test", "Lucy", "ddf"]
         }
+    }
+
+    componentDidMount() {
+
     }
 
     onHandleChange() {
-        document.getElementsByClassName("inputs-group")[0].removeAttribute("hidden")
+        const current = this.state.disabled;
+        this.setState({
+            disabled: !current
+        })
     }
-
-    onNumberChange = (e) => {
-
-        const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
-        const value = document.getElementsByName(e)[0].value;
-        if ((!isNaN(value) && reg.test(value) && e === 'easy') || value === '') {
-            this.setState({easy: value})
-        } else if ((!isNaN(value) && reg.test(value) && e === 'general') || value === '') {
-            this.setState({general: value})
-        } else if ((!isNaN(value) && reg.test(value) && e === 'difficult') || value === '') {
-            this.setState({difficult: value})
-        }
-    };
 
     render() {
 
@@ -47,6 +43,8 @@ class TopContent extends Component {
                 sm: {span: 10},
             },
         };
+        const {disabled} = this.state;
+        const {program} = this.props;
         return (
             <div className="top-content">
                 <Form name="myForm">
@@ -56,7 +54,7 @@ class TopContent extends Component {
                     >
                         {getFieldDecorator('name', {
                             rules: [{
-                                max: true, message: '试卷名称长度不能超过32个字符'
+                                required: true, message: '请输入试卷名称!',
                             }],
                         })(
                             <Input placeholder="请输入试卷名称"/>
@@ -68,30 +66,36 @@ class TopContent extends Component {
                     >
                         {getFieldDecorator('examDescription', {
                             rules: [{
-                                max: true, message: '试卷描述长度不能超过255个字符'
+                                required: true, message: '请输入试卷描述!',
                             }],
                         })(
-                            <TextArea placeholder="请输入试卷描述"/>
+                            <TextArea placeholder="试卷描述"/>
                         )}
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayout}
+                        label="program">
+                        <Select className="form-control">
+                            {
+                                program.map((item, index) => {
+                                    return <Option value={item} key={index}>{item}</Option>
+
+                                })
+                            }
+                        </Select>
                     </FormItem>
                     <FormItem
                         {...formItemLayout}
                         label="逻辑题"
                     >
-                        <Checkbox onChange={this.onHandleChange}/>
-                        <div className="inputs-group" hidden>
+                        <Checkbox onChange={this.onHandleChange.bind(this)}/>
+                        <div className="inputs-group">
                             <span className="type">简单</span>
-                            <Input size="large" name="easy"
-                                   onChange={this.onNumberChange.bind(this, 'easy')}
-                                   value={this.state.easy}/>
+                            <InputNumber min={1} max={10} size="large" disabled={disabled}/>
                             <span className="type">一般</span>
-                            <Input size="large" name="general"
-                                   onChange={this.onNumberChange.bind(this, 'general')}
-                                   value={this.state.general}/>
+                            <InputNumber min={1} max={10} size="large" disabled={disabled}/>
                             <span className="type">困难</span>
-                            <Input size="large" name="difficult"
-                                   onChange={this.onNumberChange.bind(this, 'difficult')}
-                                   value={this.state.difficult}/>
+                            <InputNumber min={1} max={10} size="large" disabled={disabled}/>
                         </div>
 
                     </FormItem>
@@ -103,5 +107,10 @@ class TopContent extends Component {
 
 }
 
+const mapStateToProps = state => ({program: state.program});
+const mapDispatchToProps = dispatch => ({
+    getProgram: () => dispatch(programActions.getProgram())
+});
+
 const WrappedRegistrationForm = Form.create()(TopContent);
-export default WrappedRegistrationForm;
+export default connect(mapStateToProps, mapDispatchToProps)(WrappedRegistrationForm);
