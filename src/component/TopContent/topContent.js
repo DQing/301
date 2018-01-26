@@ -15,7 +15,6 @@ class TopContent extends Component {
         super(props);
         this.state = {
             disabled: true,
-            programList: ["test", "Lucy", "ddf"]
         }
     }
 
