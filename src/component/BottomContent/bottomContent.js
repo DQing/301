@@ -1,8 +1,16 @@
 import React, {Component} from 'react';
-import {Input, Card, Icon, Modal, Table} from 'antd'
+import {Input, Card, Icon, Radio} from 'antd'
 import './bottomContent.less'
 import addButton from '../../static/addButton.png';
 import './bottomContent.less'
+import * as Type from '../../constant/quiz-type';
+import HomeQuizModal from './homeQuizModal';
+import SubjectQuizModal from './subjectQuizModal';
+import BasisQuizModal from './basisQuizModal';
+// import * as quiz from '../../constant/data';
+// import index from "../../reducers/index";
+
+const RadioGroup = Radio.Group;
 
 
 class bottomContent extends Component {
@@ -12,16 +20,17 @@ class bottomContent extends Component {
         this.state = {
             visible: false,
             selectTopics: [],
-            title: "编程题",
+            quizTitle: '',
+            quizType: '',
             input: false,
             sectionList: []
         }
     }
 
-    showTopicOption() {
+    showQuizModal(type) {
         this.setState({
             visible: true
-        })
+        }, this.renderQuizModal(type))
 
     }
 
@@ -52,7 +61,9 @@ class bottomContent extends Component {
 
     inputChange(e) {
         const {value} = e.target || '';
-        this.setState({title: value})
+        this.setState({
+            quizTitle: e.target.value
+        }, console.log('=======', this.state.quizTitle));
     }
 
     inputOnBlur() {
@@ -62,100 +73,60 @@ class bottomContent extends Component {
     }
 
     onDeleteSection(index) {
-        const sectionList = this.state.sectionList
-        sectionList.pop()
+        const sectionList = this.state.sectionList;
+        sectionList.splice(index, 1);
         this.setState({
             sectionList: sectionList
         })
     }
 
     addSection() {
+        const {quizTitle, quizType} = this.state;
 
         const section = {
-            "type": "homeworkQuiz",
-            "title": "编程题",
+            "type": quizType,
+            "quizTitle": quizTitle,
             "definition": {
                 "quizzes": ["12345"]
             }
         };
-        this.state.sectionList.push(section)
+        if (quizTitle !== '' && quizType !== '') {
+            this.state.sectionList.push(section);
+            this.setState({
+                sectionList: this.state.sectionList
+            })
+        }
+    }
+
+    onRadioChange(e) {
+        const value = parseInt(e.target.value);
+        const key = Object.keys(Type.quizType[value - 1])[0];
         this.setState({
-            sectionList: this.state.sectionList
-        })
+            quizType: key,
+            quizTitle: Type.quizType[value - 1][key]
+        });
+    }
+
+    renderQuizModal(type) {
+        debugger
+        if (type === 'homeworkQuiz') {
+            return <HomeQuizModal visible={this.state.visible}
+                                  handleOk={() => this.handleOk()}
+                                  handleCancel={() => this.handleCancel()}/>
+        } else if (type === 'subjectQuiz') {
+            return <SubjectQuizModal visible={this.state.visible}
+                                     handleOk={() => this.handleOk()}
+                                     handleCancel={() => this.handleCancel()}/>
+        } else if (type === 'basicQuiz') {
+            return <BasisQuizModal visible={this.state.visible}
+                                   handleOk={() => this.handleOk()}
+                                   handleCancel={() => this.handleCancel()}/>
+        }
+        return '';
     }
 
     render() {
-        const dataSource = [
-            {
-                "_id": "1",
-                "title": "react",
-                "stack": "Javascript",
-                "creator": "admin",
-                "createTime": "2018-1-23",
-                "key": '1'
-            }, {
-                "_id": "2",
-                "title": "jersey",
-                "stack": "Java+Gradle",
-                "creator": "admin",
-                "createTime": "2018-1-23",
-                "key": '2'
-            }, {
-                "_id": "3",
-                "title": "react",
-                "stack": "Javascript",
-                "creator": "admin",
-                "createTime": "2018-1-23",
-                "key": '3'
-            }, {
-                "_id": "4",
-                "title": "react",
-                "stack": "Javascript",
-                "creator": "admin",
-                "createTime": "2018-1-23",
-                "key": '4'
-            }, {
-                "_id": "5",
-                "title": "react",
-                "stack": "Javascript",
-                "creator": "admin",
-                "createTime": "2018-1-23",
-                "key": '5'
-            },
-        ];
-        const columns = [
-            {
-                title: '试卷名称',
-                dataIndex: 'title',
-                key: 'title'
-            },
-
-            {
-                title: '题目类型',
-                dataIndex: 'stack',
-                key: 'stack'
-            },
-
-            {
-                title: '创建人',
-                dataIndex: 'creator',
-                key: 'creator'
-            },
-
-            {
-                title: '试卷名称',
-                dataIndex: 'createTime',
-                key: 'createTime'
-            },
-        ]
-        const rowSelection = {
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({
-                    selectTopics: selectedRows
-                });
-                console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-            }
-        };
+        const {quizType} = this.state;
         return (
             <div className="bottom-content">
                 {
@@ -168,11 +139,11 @@ class bottomContent extends Component {
                                 <Input type="text" className="read-only" id="input-title"
                                        onChange={this.inputChange.bind(this)}
                                        onBlur={this.inputOnBlur.bind(this)}
-                                       value={item.title}/>
+                                       value={item.quizTitle}/>
                                 <div className="topic-list">
                                     <div className="add-button">
                                         <img src={addButton} alt="add-button"
-                                             onClick={this.showTopicOption.bind(this)}/>
+                                             onClick={this.showQuizModal.bind(this, item.type)}/>
                                     </div>
                                     <div className="add-topics">
                                         {
@@ -185,16 +156,9 @@ class bottomContent extends Component {
                                         }
                                     </div>
                                     <div className="modal">
-                                        <Modal
-                                            title="试卷列表"
-                                            visible={this.state.visible}
-                                            onOk={this.handleOk.bind(this)}
-                                            onCancel={this.handleCancel.bind(this)}>
-                                            <Table bordered hover striped
-                                                   rowSelection={rowSelection} dataSource={dataSource}
-                                                   columns={columns}
-                                                   pagination={false}/>
-                                        </Modal>
+                                        {
+                                            quizType ? this.renderQuizModal.bind(this, quizType) : ''
+                                        }
                                     </div>
                                 </div>
                             </Card>
@@ -203,6 +167,13 @@ class bottomContent extends Component {
                 }
                 <div className="addSectionCard">
                     <Card>
+                        <div className="selectQuizz">
+                            <RadioGroup onChange={this.onRadioChange.bind(this)}>
+                                <Radio value="1">简单客观题</Radio>
+                                <Radio value="2">主观题</Radio>
+                                <Radio value="3">编程题</Radio>
+                            </RadioGroup>
+                        </div>
                         <img src={addButton} alt="add-button" onClick={this.addSection.bind(this)}/>
                     </Card>
                 </div>
