@@ -18,7 +18,9 @@ class bottomContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
+            visibleHome: false,
+            visibleSubject: false,
+            visibleBasis: false,
             selectTopics: [],
             quizTitle: '',
             quizType: '',
@@ -28,22 +30,46 @@ class bottomContent extends Component {
     }
 
     showQuizModal(type) {
-        this.setState({
-            visible: true
-        }, this.renderQuizModal(type))
+        if (type === 'homeworkQuiz') {
+            this.setState({
+                visibleHome: true
+            })
+
+        } else if (type === 'subjectQuiz') {
+            this.setState({
+                visibleSubject: true
+            })
+
+        } else if (type === 'basicQuiz') {
+            this.setState({
+                visibleBasis: true
+            })
+
+        }
 
     }
 
-    handleOk() {
-        this.setState({
-            visible: false
-        })
+    handleOk(type) {
+        if (type === 'HomeQuizModal') {
+            this.setState({
+                visibleHome: false
+            })
+
+        } else if (type === 'SubjectQuizModal') {
+            this.setState({
+                visibleSubject: false
+            })
+
+        } else if (type === 'BasisQuizModal') {
+            this.setState({
+                visibleBasis: false
+            })
+
+        }
     }
 
-    handleCancel() {
-        this.setState({
-            visible: false
-        })
+    handleCancel(type) {
+        this.handleOk(type)
     }
 
     onClickForm() {
@@ -107,24 +133,6 @@ class bottomContent extends Component {
         });
     }
 
-    renderQuizModal(type) {
-        debugger
-        if (type === 'homeworkQuiz') {
-            return <HomeQuizModal visible={this.state.visible}
-                                  handleOk={() => this.handleOk()}
-                                  handleCancel={() => this.handleCancel()}/>
-        } else if (type === 'subjectQuiz') {
-            return <SubjectQuizModal visible={this.state.visible}
-                                     handleOk={() => this.handleOk()}
-                                     handleCancel={() => this.handleCancel()}/>
-        } else if (type === 'basicQuiz') {
-            return <BasisQuizModal visible={this.state.visible}
-                                   handleOk={() => this.handleOk()}
-                                   handleCancel={() => this.handleCancel()}/>
-        }
-        return '';
-    }
-
     render() {
         const {quizType} = this.state;
         return (
@@ -156,9 +164,15 @@ class bottomContent extends Component {
                                         }
                                     </div>
                                     <div className="modal">
-                                        {
-                                            quizType ? this.renderQuizModal.bind(this, quizType) : ''
-                                        }
+                                        <HomeQuizModal visible={this.state.visibleHome}
+                                                       handleOk={() => this.handleOk('HomeQuizModal')}
+                                                       handleCancel={() => this.handleCancel('HomeQuizModal')}/>
+                                        <SubjectQuizModal visible={this.state.visibleSubject}
+                                                          handleOk={() => this.handleOk('SubjectQuizModal')}
+                                                          handleCancel={() => this.handleCancel('SubjectQuizModal')}/>
+                                        <BasisQuizModal visible={this.state.visibleBasis}
+                                                        handleOk={() => this.handleOk('BasisQuizModal')}
+                                                        handleCancel={() => this.handleCancel('BasisQuizModal')}/>
                                     </div>
                                 </div>
                             </Card>

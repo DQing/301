@@ -8,7 +8,7 @@ class homeQuizModal extends Component {
     }
 
     handleOk() {
-        this.props.handleOk()
+        this.props.handleOk();
     }
 
     handleCancel() {
@@ -41,7 +41,7 @@ class homeQuizModal extends Component {
                 dataIndex: 'createTime',
                 key: 'createTime'
             },
-        ]
+        ];
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
                 this.setState({
