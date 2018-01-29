@@ -19,6 +19,7 @@ class bottomContent extends Component {
             visibleHome: false,
             visibleSubject: false,
             visibleBasis: false,
+
             selectTopics: [],
             quizTitle: '',
             quizType: '',
@@ -117,10 +118,7 @@ class bottomContent extends Component {
 
         const section = {
             "type": quizType,
-            "quizTitle": quizTitle,
-            "definition": {
-                "quizzes": ["12345"]
-            }
+            "quizTitle": quizTitle
         };
         if (quizTitle !== '' && quizType !== '') {
             this.state.sectionList.push(section);

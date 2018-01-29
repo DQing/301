@@ -7,41 +7,57 @@
     "id": 12,
     "name": "最佳编程之旅"
   },
-  "sections": [
-    {
-      "type": "logicPuzzle",
-      "definition": {
-        "easy": 2,
-        "normal": 3,
-        "hard": 4
-      }
-    },
+  "logicPuzzle": {
+    "easy": 2,
+    "normal": 3,
+    "hard": 4
+  },
+  "sectionList": [
     {
       "type": "homeworkQuiz",
       "title": "编程题",
-      "definition": {
-        "quizzes": [
-          "12345"
-        ]
-      }
+      "id": 12,
+      "name": "javascrpt",
+      "stack": "node"
     },
     {
       "type": "subjectQuiz",
       "title": "主观题",
-      "definition": {
-        "quizzes": [
-          "12345"
-        ]
-      }
+      "quizzes": [
+        "描述",
+        "miaoshu"
+      ]
     },
     {
       "type": "basicQuiz",
       "title": "客观题",
-      "definition": {
-        "quizzes": [
-          "12345"
-        ]
-      }
+      "quizzes": [
+        {
+          "type": "blank",
+          "description": "miaoshu",
+          "answer": "answer"
+        },
+        {
+          "type": "radio",
+          "description": "miaoshu",
+          "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ]
+        },
+        {
+          "type": "multipleChoice",
+          "description": "miaoshu",
+          "options": [
+            "a",
+            "b",
+            "c",
+            "d"
+          ]
+        }
+      ]
     }
   ]
 }
