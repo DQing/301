@@ -49,10 +49,11 @@ class bottomContent extends Component {
 
     }
 
-    handleOk(type) {
+    handleOk(type, selectTopics) {
         if (type === 'HomeQuizModal') {
             this.setState({
-                visibleHome: false
+                visibleHome: false,
+                selectTopics: selectTopics
             })
 
         } else if (type === 'SubjectQuizModal') {
@@ -69,7 +70,22 @@ class bottomContent extends Component {
     }
 
     handleCancel(type) {
-        this.handleOk(type)
+        if (type === 'HomeQuizModal') {
+            this.setState({
+                visibleHome: false,
+            })
+
+        } else if (type === 'SubjectQuizModal') {
+            this.setState({
+                visibleSubject: false
+            })
+
+        } else if (type === 'BasisQuizModal') {
+            this.setState({
+                visibleBasis: false
+            })
+
+        }
     }
 
     onClickForm() {
@@ -165,14 +181,14 @@ class bottomContent extends Component {
                                     </div>
                                     <div className="modal">
                                         <HomeQuizModal visible={this.state.visibleHome}
-                                                       handleOk={() => this.handleOk('HomeQuizModal')}
-                                                       handleCancel={() => this.handleCancel('HomeQuizModal')}/>
+                                                       handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
+                                                       handleCancel={(type) => this.handleCancel(type)}/>
                                         <SubjectQuizModal visible={this.state.visibleSubject}
-                                                          handleOk={() => this.handleOk('SubjectQuizModal')}
-                                                          handleCancel={() => this.handleCancel('SubjectQuizModal')}/>
+                                                          handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
+                                                          handleCancel={(type) => this.handleCancel(type)}/>
                                         <BasisQuizModal visible={this.state.visibleBasis}
-                                                        handleOk={() => this.handleOk('BasisQuizModal')}
-                                                        handleCancel={() => this.handleCancel('BasisQuizModal')}/>
+                                                        handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
+                                                        handleCancel={(type) => this.handleCancel(type)}/>
                                     </div>
                                 </div>
                             </Card>

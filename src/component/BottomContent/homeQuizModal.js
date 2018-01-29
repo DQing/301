@@ -5,14 +5,18 @@ import * as quiz from '../../constant/data';
 class homeQuizModal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectTopics: []
+        };
     }
 
     handleOk() {
-        this.props.handleOk();
+        console.log('=========')
+        this.props.handleOk('HomeQuizModal', this.state.selectTopics);
     }
 
     handleCancel() {
-        this.props.handleCancel()
+        this.props.handleCancel('HomeQuizModal')
     }
 
     render() {
