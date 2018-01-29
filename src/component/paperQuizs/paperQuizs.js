@@ -17,8 +17,6 @@ class bottomContent extends Component {
         super(props);
         this.state = {
             visible: false,
-
-            selectTopics: [],
             quizTitle: '',
             quizType: '',
             input: false,
@@ -34,7 +32,6 @@ class bottomContent extends Component {
 
     handleOk(selectTopics, index) {
         this.state.sectionList[index]['quizzes'] = [];
-        debugger
         this.state.sectionList[index]['quizzes'].push(selectTopics);
 
         this.setState({
@@ -128,7 +125,6 @@ class bottomContent extends Component {
                                         {
                                             this.state.sectionList[index].quizzes ?
                                                 this.state.sectionList[index].quizzes.map((item, index) => {
-                                                console.log('========',item.title)
                                                     return <div className="topic" key={index}>
                                                         <p className="title"><span>{item.title}</span></p>
                                                         <p className="stack"><span>{item.stack}</span></p>
