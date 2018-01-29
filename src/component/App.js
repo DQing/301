@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {Layout, Button} from 'antd'
-import './App.less'
-import TopContent from './TopContent/topContent';
-import BottomContent from './BottomContent/bottomContent';
+import '../style/App.less'
+import PaperInfo from './paperInfo/paperInfo';
+import PaperQuiz from './paperQuizs/paperQuizs';
 
 const {Header, Footer, Content} = Layout;
 
@@ -18,11 +18,11 @@ class App extends Component {
                         <span>新增试卷</span>
                     </Header>
                     <Content className="app-content">
-                        <TopContent/>
+                        <PaperInfo/>
                         <div className="center-line">
                             <hr/>
                         </div>
-                        <BottomContent/>
+                        <PaperQuiz/>
                     </Content>
                     <Footer>
                         <Button className="button save">保存</Button>

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Modal, Table} from 'antd';
-import * as quiz from '../../constant/data';
+import * as quiz from '../../../constant/data';
 
 class homeQuizModal extends Component {
     constructor(props) {

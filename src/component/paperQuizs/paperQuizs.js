@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {Input, Card, Icon, Radio} from 'antd'
-import './bottomContent.less'
+import '../../style/paperQuizs.less'
 import addButton from '../../static/addButton.png';
-import './bottomContent.less'
 import * as Type from '../../constant/quiz-type';
-import HomeQuizModal from './homeQuizModal';
-import SubjectQuizModal from './subjectQuizModal';
-import BasisQuizModal from './basisQuizModal';
-// import * as quiz from '../../constant/data';
-// import index from "../../reducers/index";
+import HomeQuizModal from './quizModal/homeWorkQuizModal';
+import SubjectQuizModal from './quizModal/subjectQuizModal';
+import BasisQuizModal from './quizModal/basisQuizModal';
+
 
 const RadioGroup = Radio.Group;
 

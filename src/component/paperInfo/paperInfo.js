@@ -2,8 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux';
 import {Form, Input, Checkbox, InputNumber, Select} from 'antd'
 import * as programActions from '../../actions/program';
-
-import './topContent.less'
+import '../../style/paperInfo.less'
 
 const FormItem = Form.Item;
 const {TextArea} = Input;
