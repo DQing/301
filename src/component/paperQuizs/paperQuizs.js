@@ -86,29 +86,21 @@ class bottomContent extends Component {
         }
     }
 
-    onClickForm() {
-        const flag = this.state.input
-        if (!flag) {
-            document.getElementById("input-title").removeAttribute("class", "read-only");
-            document.getElementById("input-title").setAttribute("class", "input-header");
-            this.setState({input: true})
-        } else {
-            document.getElementById("input-title").removeAttribute("class", "input-header");
-            document.getElementById("input-title").setAttribute("class", "read-only");
-            this.setState({input: false})
-        }
+    inputChange(index, e) {
+        const {value} = e.target || '';
+        this.state.sectionList[index].quizTitle = value;
+        this.setState({
+            sectionList: this.state.sectionList
+        });
     }
 
-    inputChange(e) {
-        const {value} = e.target || '';
-        this.setState({
-            quizTitle: e.target.value
-        }, console.log('=======', this.state.quizTitle));
+    onClickForm() {
+        const input = this.state.input;
+        this.setState({input: !input})
+
     }
 
     inputOnBlur() {
-        document.getElementById("input-title").removeAttribute("class", "input-header");
-        document.getElementById("input-title").setAttribute("class", "read-only");
         this.setState({input: false})
     }
 
@@ -148,20 +140,25 @@ class bottomContent extends Component {
     }
 
     render() {
-        const {quizType} = this.state;
+        const {quizType, input} = this.state;
         return (
             <div className="bottom-content">
                 {
                     this.state.sectionList.map((item, index) => {
                         return <div className="section" key={index}>
                             <Card extra={<span>
-                                    <Icon type="form" onClick={this.onClickForm.bind(this)}/>
-                                    <Icon type="delete" onClick={this.onDeleteSection.bind(this, index)}/>
+                                {input ? '' : <Icon type="form" onClick={this.onClickForm.bind(this)}/>}
+                                <Icon type="delete" onClick={this.onDeleteSection.bind(this, index)}/>
                                 </span>}>
-                                <Input type="text" className="read-only" id="input-title"
-                                       onChange={this.inputChange.bind(this)}
-                                       onBlur={this.inputOnBlur.bind(this)}
-                                       value={item.quizTitle}/>
+                                {
+                                    input ? <Input type="text" id="input-title"
+                                                   onChange={this.inputChange.bind(this, index)}
+                                                   onBlur={this.inputOnBlur.bind(this)}
+                                                   value={item.quizTitle}/> :
+                                        <span className="quizType">{item.quizTitle}</span>
+
+                                }
+
                                 <div className="topic-list">
                                     <div className="add-button">
                                         <img src={addButton} alt="add-button"
