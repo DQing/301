@@ -16,9 +16,13 @@
     {
       "type": "homeworkQuiz",
       "title": "编程题",
-      "id": 12,
-      "name": "javascrpt",
-      "stack": "node"
+      "quizzes":[
+      {
+       "id": 12,
+            "name": "javascrpt",
+            "stack": "node"
+      }
+      ]
     },
     {
       "type": "subjectQuiz",

@@ -11,12 +11,11 @@ class homeQuizModal extends Component {
     }
 
     handleOk() {
-        console.log('=========')
-        this.props.handleOk('HomeQuizModal', this.state.selectTopics);
+        this.props.handleOk(this.state.selectTopics, this.props.index);
     }
 
     handleCancel() {
-        this.props.handleCancel('HomeQuizModal')
+        this.props.handleCancel()
     }
 
     render() {
@@ -49,7 +48,7 @@ class homeQuizModal extends Component {
         const rowSelection = {
             onChange: (selectedRowKeys, selectedRows) => {
                 this.setState({
-                    selectTopics: selectedRows
+                    selectTopics: selectedRows[0]
                 });
             }
         };

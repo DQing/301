@@ -16,9 +16,7 @@ class bottomContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visibleHome: false,
-            visibleSubject: false,
-            visibleBasis: false,
+            visible: false,
 
             selectTopics: [],
             quizTitle: '',
@@ -28,63 +26,27 @@ class bottomContent extends Component {
         }
     }
 
-    showQuizModal(type) {
-        if (type === 'homeworkQuiz') {
-            this.setState({
-                visibleHome: true
-            })
-
-        } else if (type === 'subjectQuiz') {
-            this.setState({
-                visibleSubject: true
-            })
-
-        } else if (type === 'basicQuiz') {
-            this.setState({
-                visibleBasis: true
-            })
-
-        }
-
+    showQuizModal() {
+        this.setState({
+            visible: true
+        })
     }
 
-    handleOk(type, selectTopics) {
-        if (type === 'HomeQuizModal') {
-            this.setState({
-                visibleHome: false,
-                selectTopics: selectTopics
-            })
+    handleOk(selectTopics, index) {
+        this.state.sectionList[index]['quizzes'] = [];
+        debugger
+        this.state.sectionList[index]['quizzes'].push(selectTopics);
 
-        } else if (type === 'SubjectQuizModal') {
-            this.setState({
-                visibleSubject: false
-            })
-
-        } else if (type === 'BasisQuizModal') {
-            this.setState({
-                visibleBasis: false
-            })
-
-        }
+        this.setState({
+            visible: false,
+            sectionList: this.state.sectionList
+        })
     }
 
-    handleCancel(type) {
-        if (type === 'HomeQuizModal') {
-            this.setState({
-                visibleHome: false,
-            })
-
-        } else if (type === 'SubjectQuizModal') {
-            this.setState({
-                visibleSubject: false
-            })
-
-        } else if (type === 'BasisQuizModal') {
-            this.setState({
-                visibleBasis: false
-            })
-
-        }
+    handleCancel() {
+        this.setState({
+            visible: false,
+        })
     }
 
     inputChange(index, e) {
@@ -138,7 +100,7 @@ class bottomContent extends Component {
     }
 
     render() {
-        const {quizType, input} = this.state;
+        const {input} = this.state;
         return (
             <div className="bottom-content">
                 {
@@ -160,28 +122,37 @@ class bottomContent extends Component {
                                 <div className="topic-list">
                                     <div className="add-button">
                                         <img src={addButton} alt="add-button"
-                                             onClick={this.showQuizModal.bind(this, item.type)}/>
+                                             onClick={this.showQuizModal.bind(this)}/>
                                     </div>
                                     <div className="add-topics">
                                         {
-                                            this.state.selectTopics.map((item, index) => {
-                                                return <div className="topic" key={index}>
-                                                    <p className="title"><span>{item.title}</span></p>
-                                                    <p className="stack"><span>{item.stack}</span></p>
-                                                </div>
-                                            })
+                                            this.state.sectionList[index].quizzes ?
+                                                this.state.sectionList[index].quizzes.map((item, index) => {
+                                                console.log('========',item.title)
+                                                    return <div className="topic" key={index}>
+                                                        <p className="title"><span>{item.title}</span></p>
+                                                        <p className="stack"><span>{item.stack}</span></p>
+                                                    </div>
+                                                }) : ''
                                         }
                                     </div>
                                     <div className="modal">
-                                        <HomeQuizModal visible={this.state.visibleHome}
-                                                       handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
-                                                       handleCancel={(type) => this.handleCancel(type)}/>
-                                        <SubjectQuizModal visible={this.state.visibleSubject}
-                                                          handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
-                                                          handleCancel={(type) => this.handleCancel(type)}/>
-                                        <BasisQuizModal visible={this.state.visibleBasis}
-                                                        handleOk={(type, selectTopics) => this.handleOk(type, selectTopics)}
-                                                        handleCancel={(type) => this.handleCancel(type)}/>
+                                        {
+                                            item.type === 'homeworkQuiz' ?
+                                                <HomeQuizModal visible={this.state.visible}
+                                                               index={index}
+                                                               handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
+                                                               handleCancel={(type) => this.handleCancel(type)}/> :
+                                                (item.type === 'subjectQuiz' ?
+                                                    <SubjectQuizModal visible={this.state.visible}
+                                                                      index={index}
+                                                                      handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
+                                                                      handleCancel={(type) => this.handleCancel(type)}/> :
+                                                    <BasisQuizModal visible={this.state.visible}
+                                                                    index={index}
+                                                                    handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
+                                                                    handleCancel={(type) => this.handleCancel(type)}/> )
+                                        }
                                     </div>
                                 </div>
                             </Card>

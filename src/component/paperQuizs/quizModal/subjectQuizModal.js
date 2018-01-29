@@ -13,7 +13,7 @@ class subjectQuizModal extends Component {
     }
 
     handleOk() {
-        this.props.handleOk('SubjectQuizModal', this.state.textArea);
+        this.props.handleOk(this.state.textArea);
     }
 
     handleCancel() {
