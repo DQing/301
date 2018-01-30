@@ -56,7 +56,9 @@ class homeQuizModal extends Component {
             <Modal
                 title="试卷列表"
                 visible={visible}
+                width="598px"
                 onOk={this.handleOk.bind(this)}
+                destroyOnClose={true}
                 onCancel={this.handleCancel.bind(this)}>
                 <Table bordered hover striped
                        rowSelection={rowSelection} dataSource={quiz.homeworkQuiz}

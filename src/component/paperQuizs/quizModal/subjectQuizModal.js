@@ -13,7 +13,7 @@ class subjectQuizModal extends Component {
     }
 
     handleOk() {
-        this.props.handleOk(this.state.textArea);
+        this.props.handleOk(this.state.quiz, this.props.index);
     }
 
     handleCancel() {
@@ -23,7 +23,10 @@ class subjectQuizModal extends Component {
     handleInput(e) {
         const {value} = e.target || '';
         this.setState({
-            textArea: value
+            quiz: {
+                title: value,
+                stack: '主观题'
+            }
         });
     }
 
@@ -34,6 +37,7 @@ class subjectQuizModal extends Component {
             <Modal
                 title="新建主题"
                 visible={visible}
+                width="598px"
                 onOk={this.handleOk.bind(this)}
                 onCancel={this.handleCancel.bind(this)}>
                 <Row>

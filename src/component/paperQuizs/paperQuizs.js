@@ -5,7 +5,7 @@ import addButton from '../../static/addButton.png';
 import * as Type from '../../constant/quiz-type';
 import HomeQuizModal from './quizModal/homeWorkQuizModal';
 import SubjectQuizModal from './quizModal/subjectQuizModal';
-import BasisQuizModal from './quizModal/basisQuizModal';
+import BasisQuizModal from './quizModal/basicQuizModal';
 
 
 const RadioGroup = Radio.Group;
@@ -31,6 +31,7 @@ class bottomContent extends Component {
     }
 
     handleOk(selectTopics, index) {
+        debugger
         this.state.sectionList[index]['quizzes'] = [];
         this.state.sectionList[index]['quizzes'].push(selectTopics);
 
@@ -138,16 +139,16 @@ class bottomContent extends Component {
                                                 <HomeQuizModal visible={this.state.visible}
                                                                index={index}
                                                                handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                               handleCancel={(type) => this.handleCancel(type)}/> :
+                                                               handleCancel={() => this.handleCancel()}/> :
                                                 (item.type === 'subjectQuiz' ?
                                                     <SubjectQuizModal visible={this.state.visible}
                                                                       index={index}
                                                                       handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                                      handleCancel={(type) => this.handleCancel(type)}/> :
+                                                                      handleCancel={() => this.handleCancel()}/> :
                                                     <BasisQuizModal visible={this.state.visible}
                                                                     index={index}
                                                                     handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                                    handleCancel={(type) => this.handleCancel(type)}/> )
+                                                                    handleCancel={() => this.handleCancel()}/> )
                                         }
                                     </div>
                                 </div>
@@ -167,6 +168,7 @@ class bottomContent extends Component {
                         <img src={addButton} alt="add-button" onClick={this.addSection.bind(this)}/>
                     </Card>
                 </div>
+
             </div>
         )
     }
