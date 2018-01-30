@@ -16,20 +16,22 @@
     {
       "type": "homeworkQuiz",
       "title": "编程题",
-      "quizzes":[
-      {
-       "id": 12,
-            "name": "javascrpt",
-            "stack": "node"
-      }
+      "quizzes": [
+        {
+          "id": 12,
+          "title": "javascrpt",
+          "stack": "node"
+        }
       ]
     },
     {
       "type": "subjectQuiz",
       "title": "主观题",
       "quizzes": [
-        "描述",
-        "miaoshu"
+        {
+          "title": "miaoshu",
+          "stack": "主观题"
+        }
       ]
     },
     {
@@ -38,27 +40,35 @@
       "quizzes": [
         {
           "type": "blank",
-          "description": "miaoshu",
+          "title": "miaoshu",
+          "stack": "客观题",
           "answer": "answer"
         },
         {
           "type": "radio",
-          "description": "miaoshu",
+          "title": "miaoshu",
+          "stack": "主观题",
           "options": [
             "a",
             "b",
             "c",
             "d"
-          ]
+          ],
+          "answer": "a"
         },
         {
           "type": "multipleChoice",
-          "description": "miaoshu",
+          "title": "miaoshu",
+          "stack": "主观题",
           "options": [
             "a",
             "b",
             "c",
             "d"
+          ],
+          "answer": [
+            "a",
+            "b"
           ]
         }
       ]
