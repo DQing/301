@@ -64,7 +64,6 @@ class basisQuizContent extends Component {
 
     selectQuizType(e) {
         const {value} = e.target || '';
-        debugger
         this.setState({
             quizType: value,
             description: ''

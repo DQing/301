@@ -19,7 +19,7 @@ class sectionModal extends Component {
     }
 
     handleCancel() {
-        this.props.handleCancel()
+        this.props.handleCancel(this.props.index)
     }
 
     getQuizData(selectTopics) {
@@ -43,12 +43,14 @@ class sectionModal extends Component {
     }
 
     render() {
-        const {visible, quizType, index} = this.props;
+        const {visible, quizType} = this.props;
         const title = data.modalTitle[quizType];
 
         return <Modal
             title={title}
             visible={visible}
+            destroyOnClose={true}
+            z-Index={-1}
             width="598px"
             onOk={this.handleOk.bind(this)}
             onCancel={this.handleCancel.bind(this)}>

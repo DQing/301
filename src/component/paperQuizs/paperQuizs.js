@@ -14,7 +14,6 @@ class bottomContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: false,
             quizTitle: '',
             quizType: '',
             input: false,
@@ -22,24 +21,23 @@ class bottomContent extends Component {
         }
     }
 
-    showQuizModal() {
+    showQuizModal(index) {
+        this.state.sectionList[index].modalVisible = true;
         this.setState({
-            visible: true
+            sectionList: this.state.sectionList
         })
     }
 
     handleOk(selectTopics, index) {
         this.state.sectionList[index]['quizzes'].push(selectTopics);
+        this.state.sectionList[index].modalVisible = false;
         this.setState({
-            visible: false,
             sectionList: this.state.sectionList
         })
     }
 
-    handleCancel() {
-        this.setState({
-            visible: false,
-        })
+    handleCancel(index) {
+        this.state.sectionList[index].modalVisible = false;
     }
 
     inputChange(index, e) {
@@ -74,7 +72,8 @@ class bottomContent extends Component {
         const section = {
             "type": quizType,
             "quizTitle": quizTitle,
-            "quizzes": []
+            "quizzes": [],
+            "modalVisible": false
         };
         if (quizTitle !== '' && quizType !== '') {
             this.state.sectionList.push(section);
@@ -94,11 +93,11 @@ class bottomContent extends Component {
     }
 
     renderSectionModal(item, index) {
-        const {visible} = this.state;
-        return <SectionModal visible={visible}
+        // const {visible} = this.state;
+        return <SectionModal visible={item.modalVisible}
                              quizType={item.type}
                              handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                             handleCancel={() => this.handleCancel()}
+                             handleCancel={(index) => this.handleCancel(index)}
                              index={index}/>
     }
 
@@ -125,7 +124,7 @@ class bottomContent extends Component {
                                 <div className="topic-list">
                                     <div className="add-button">
                                         <img src={addButton} alt="add-button"
-                                             onClick={this.showQuizModal.bind(this)}/>
+                                             onClick={this.showQuizModal.bind(this, index)}/>
                                     </div>
                                     <div className="add-topics">
                                         {
