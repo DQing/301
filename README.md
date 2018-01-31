@@ -76,3 +76,70 @@
   ]
 }
 ```
+
+####homeworkQuiz 数据结构
+```
+ [
+    {
+        "_id": "1",
+        "title": "react",
+        "stack": "Javascript",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+        "key": '1'
+    }, {
+        "_id": "2",
+        "title": "jersey",
+        "stack": "Java+Gradle",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+        "key": '2'
+    }, {
+        "_id": "3",
+        "title": "react",
+        "stack": "Javascript",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+        "key": '3'
+    }, {
+        "_id": "4",
+        "title": "react",
+        "stack": "Javascript",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+        "key": '4'
+    }, {
+        "_id": "5",
+        "title": "react",
+        "stack": "Javascript",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+        "key": '5'
+    },
+];
+
+```
+
+###programList 数据结构
+
+```
+ [
+    {
+        "_id": "1",
+        "title": "react练习",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+    },{
+        "_id": "2",
+        "title": "nodejs 技术栈",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+    },{
+        "_id": "1",
+        "title": "react-redux",
+        "creator": "admin",
+        "createTime": "2018-1-23",
+    }
+];
+
+```

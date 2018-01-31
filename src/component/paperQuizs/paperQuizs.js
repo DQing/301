@@ -31,7 +31,6 @@ class bottomContent extends Component {
     }
 
     handleOk(selectTopics, index) {
-        debugger
         this.state.sectionList[index]['quizzes'] = [];
         this.state.sectionList[index]['quizzes'].push(selectTopics);
 

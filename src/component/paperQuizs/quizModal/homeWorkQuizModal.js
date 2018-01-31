@@ -10,6 +10,10 @@ class homeQuizModal extends Component {
         };
     }
 
+    componentDidMount() {
+
+    }
+
     handleOk() {
         this.props.handleOk(this.state.selectTopics, this.props.index);
     }
@@ -61,12 +65,17 @@ class homeQuizModal extends Component {
                 destroyOnClose={true}
                 onCancel={this.handleCancel.bind(this)}>
                 <Table bordered hover striped
-                       rowSelection={rowSelection} dataSource={quiz.homeworkQuiz}
+                       rowSelection={rowSelection}
+                       dataSource={quiz.homeworkQuiz}
                        columns={columns}
                        pagination={false}/>
             </Modal>
         )
     }
+}
+
+const mapStateToProps = (state) => {
+
 }
 
 export default homeQuizModal;
