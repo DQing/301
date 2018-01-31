@@ -1,32 +1,27 @@
 import React, {Component} from 'react';
-import {Modal, Row, Col, Radio, Input, Checkbox} from 'antd';
+import {Row, Col, Radio, Input, Checkbox} from 'antd';
 import '../../../style/basicQuizModal.less';
 
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 const TextArea = Input.TextArea;
 
-class basisQuizModal extends Component {
+class basisQuizContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            quizType: 'blank',
-            selectTopics: [],
+            quizType: '',
             description: ''
         };
-    }
-
-    handleOk() {
-        this.props.handleOk(this.state.selectTopics, this.props.index)
-    }
-
-    handleCancel() {
-        this.props.handleCancel()
     }
 
     handleInput(quizType, e) {
         let value = {};
         const {description} = this.state;
+        if (quizType === '' || description === '') {
+            this.props.getQuizData({});
+            return;
+        }
         if (quizType === 'blank') {
             value = {
                 "type": "blank",
@@ -64,15 +59,15 @@ class basisQuizModal extends Component {
                 ]
             }
         }
-        this.setState({
-            selectTopics: value
-        })
+        this.props.getQuizData(value);
     }
 
     selectQuizType(e) {
         const {value} = e.target || '';
+        debugger
         this.setState({
-            quizType: value
+            quizType: value,
+            description: ''
         });
     }
 
@@ -144,17 +139,9 @@ class basisQuizModal extends Component {
     }
 
     render() {
-        const {visible} = this.props;
         const {quizType} = this.state;
-
         return (
-            <Modal
-                title="新建简单客观题"
-                width="598px"
-                visible={visible}
-                onOk={this.handleOk.bind(this)}
-                destroyOnClose={true}
-                onCancel={this.handleCancel.bind(this)}>
+            <div>
                 <div>
                     <RadioGroup name="radioGroup" onChange={this.selectQuizType.bind(this)} value={quizType}>
                         <Radio value="blank">填空题</Radio>
@@ -174,9 +161,9 @@ class basisQuizModal extends Component {
                         this.renderBasicQuiz(quizType)
                     }
                 </div>
-            </Modal>
+            </div>
         )
     }
 }
 
-export default basisQuizModal;
+export default basisQuizContent;

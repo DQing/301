@@ -1,30 +1,21 @@
 import React, {Component} from 'react';
-import {Modal, Table} from 'antd';
+import {Table} from 'antd';
 import {connect} from 'react-redux';
 import * as homeWorkQuizAction from '../../../actions/homeWorkQuiz';
 
-class homeWorkQuizModal extends Component {
+class homeWorkQuizContent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectTopics: []
-        };
+            selected: ["1"]
+        }
     }
 
     componentDidMount() {
         // this.props.getHomeWorkQuiz();
     }
 
-    handleOk() {
-        this.props.handleOk(this.state.selectTopics, this.props.index);
-    }
-
-    handleCancel() {
-        this.props.handleCancel()
-    }
-
     render() {
-        const {visible} = this.props;
         const columns = [
             {
                 title: '试卷名称',
@@ -50,27 +41,24 @@ class homeWorkQuizModal extends Component {
                 key: 'createTime'
             },
         ];
+        const that = this;
+        const {selected} = that.state;
         const rowSelection = {
+            getCheckboxProps: record => ({
+                disabled: selected.includes(record["_id"])
+            }),
             onChange: (selectedRowKeys, selectedRows) => {
-                this.setState({
-                    selectTopics: selectedRows[0]
-                });
-            }
+                this.props.getQuizData(selectedRows[0]);
+            },
+            type: "radio",
+            hideDefaultSelections: true
         };
         return (
-            <Modal
-                title="试卷列表"
-                visible={visible}
-                width="598px"
-                onOk={this.handleOk.bind(this)}
-                destroyOnClose={true}
-                onCancel={this.handleCancel.bind(this)}>
-                <Table bordered hover striped
-                       rowSelection={rowSelection}
-                       dataSource={this.props.homeWorkQuiz}
-                       columns={columns}
-                       pagination={false}/>
-            </Modal>
+            <Table bordered hover striped
+                   rowSelection={rowSelection}
+                   dataSource={this.props.homeWorkQuiz}
+                   columns={columns}
+                   pagination={false}/>
         )
     }
 }
@@ -80,4 +68,4 @@ const mapDispatchToProps = dispatch => ({
     getHomeWorkQuiz: () => dispatch(homeWorkQuizAction.getHomeWorkQuiz())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(homeWorkQuizModal);
+export default connect(mapStateToProps, mapDispatchToProps)(homeWorkQuizContent);

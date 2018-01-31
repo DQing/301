@@ -38,3 +38,9 @@ export const homeworkQuiz = [
 ];
 
 export const subjectQuiz = [];
+
+export const modalTitle = {
+    "homeworkQuiz": "试卷列表",
+    "subjectQuiz": "新建主题",
+    "basicQuiz": "新建简单客观题"
+};

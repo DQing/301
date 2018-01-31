@@ -3,9 +3,7 @@ import {Input, Card, Icon, Radio} from 'antd'
 import '../../style/paperQuizs.less'
 import addButton from '../../static/addButton.png';
 import * as Type from '../../constant/quiz-type';
-import HomeQuizModal from './quizModal/homeWorkQuizModal';
-import SubjectQuizModal from './quizModal/subjectQuizModal';
-import BasisQuizModal from './quizModal/basicQuizModal';
+import SectionModal from './quizModal/sectionModal';
 
 
 const RadioGroup = Radio.Group;
@@ -31,9 +29,7 @@ class bottomContent extends Component {
     }
 
     handleOk(selectTopics, index) {
-        this.state.sectionList[index]['quizzes'] = [];
         this.state.sectionList[index]['quizzes'].push(selectTopics);
-
         this.setState({
             visible: false,
             sectionList: this.state.sectionList
@@ -77,7 +73,8 @@ class bottomContent extends Component {
 
         const section = {
             "type": quizType,
-            "quizTitle": quizTitle
+            "quizTitle": quizTitle,
+            "quizzes": []
         };
         if (quizTitle !== '' && quizType !== '') {
             this.state.sectionList.push(section);
@@ -94,6 +91,15 @@ class bottomContent extends Component {
             quizType: key,
             quizTitle: Type.quizType[value - 1][key]
         });
+    }
+
+    renderSectionModal(item, index) {
+        const {visible} = this.state;
+        return <SectionModal visible={visible}
+                             quizType={item.type}
+                             handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
+                             handleCancel={() => this.handleCancel()}
+                             index={index}/>
     }
 
     render() {
@@ -133,21 +139,9 @@ class bottomContent extends Component {
                                         }
                                     </div>
                                     <div className="modal">
+
                                         {
-                                            item.type === 'homeworkQuiz' ?
-                                                <HomeQuizModal visible={this.state.visible}
-                                                               index={index}
-                                                               handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                               handleCancel={() => this.handleCancel()}/> :
-                                                (item.type === 'subjectQuiz' ?
-                                                    <SubjectQuizModal visible={this.state.visible}
-                                                                      index={index}
-                                                                      handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                                      handleCancel={() => this.handleCancel()}/> :
-                                                    <BasisQuizModal visible={this.state.visible}
-                                                                    index={index}
-                                                                    handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                                                                    handleCancel={() => this.handleCancel()}/> )
+                                            this.renderSectionModal(item, index)
                                         }
                                     </div>
                                 </div>
@@ -157,7 +151,7 @@ class bottomContent extends Component {
                 }
                 <div className="addSectionCard">
                     <Card>
-                        <div className="selectQuizz">
+                        <div className="selectQuiz">
                             <RadioGroup onChange={this.onRadioChange.bind(this)}>
                                 <Radio value="1">简单客观题</Radio>
                                 <Radio value="2">主观题</Radio>
