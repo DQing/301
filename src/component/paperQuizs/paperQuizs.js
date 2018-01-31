@@ -93,7 +93,6 @@ class bottomContent extends Component {
     }
 
     renderSectionModal(item, index) {
-        // const {visible} = this.state;
         return <SectionModal visible={item.modalVisible}
                              quizType={item.type}
                              handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
