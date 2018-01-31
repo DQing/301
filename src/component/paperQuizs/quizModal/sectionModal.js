@@ -30,8 +30,10 @@ class sectionModal extends Component {
     }
 
     renderModalContent(quizType) {
+        const {sectionList, index} = this.props;
         if (quizType === 'homeworkQuiz') {
-            return <HomeWorkQuizContent getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
+            return <HomeWorkQuizContent quizzes={sectionList[index].quizzes}
+                                        getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'subjectQuiz') {
             return <SubjectQuizContent getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>

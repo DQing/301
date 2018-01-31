@@ -77,6 +77,7 @@ class bottomContent extends Component {
         })
     }
 
+    //TODO 修改sectionQuiz
     onModifySectionQuiz() {
 
     }
@@ -107,13 +108,6 @@ class bottomContent extends Component {
         });
     }
 
-    renderSectionModal(item, index) {
-        return <SectionModal visible={item.modalVisible}
-                             quizType={item.type}
-                             handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
-                             handleCancel={(index) => this.handleCancel(index)}
-                             index={index}/>
-    }
 
     render() {
         const {input} = this.state;
@@ -160,10 +154,12 @@ class bottomContent extends Component {
                                         }
                                     </div>
                                     <div className="modal">
-
-                                        {
-                                            this.renderSectionModal(item, index)
-                                        }
+                                        <SectionModal visible={item.modalVisible}
+                                                      quizType={item.type}
+                                                      sectionList={this.state.sectionList}
+                                                      handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
+                                                      handleCancel={(index) => this.handleCancel(index)}
+                                                      index={index}/>
                                     </div>
                                 </div>
                             </Card>

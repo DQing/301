@@ -1,4 +1,10 @@
-const initState = ['22','22'];
+const initState = {
+    "name": "",
+    "description": "",
+    "program": {},
+    "logicPuzzle": {},
+    "sectionList": []
+};
 export default (state = initState, action) => {
     switch (action.type) {
         default:

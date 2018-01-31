@@ -2,14 +2,9 @@ import React, {Component} from 'react';
 import {Table, Row, Col, Input} from 'antd';
 import {connect} from 'react-redux';
 import * as homeWorkQuizAction from '../../../actions/homeWorkQuiz';
+import index from "../../../reducers/index";
 
 class homeWorkQuizContent extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            selected: ["1"]
-        }
-    }
 
     componentDidMount() {
         // this.props.getHomeWorkQuiz();
@@ -41,11 +36,12 @@ class homeWorkQuizContent extends Component {
                 key: 'createTime'
             },
         ];
-        const that = this;
-        const {selected} = that.state;
+        const {quizzes} = this.props;
         const rowSelection = {
             getCheckboxProps: record => ({
-                disabled: selected.includes(record["_id"])
+                disabled: (quizzes.map((item) => {
+                    return item._id === record._id
+                }))[0]
             }),
             onChange: (selectedRowKeys, selectedRows) => {
                 this.props.getQuizData(selectedRows[0]);
