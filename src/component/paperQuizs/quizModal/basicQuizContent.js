@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Row, Col, Radio, Input, Checkbox} from 'antd';
-import '../../../style/basicQuizModal.less';
+import '../../../style/basicQuizContent.less';
 
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;

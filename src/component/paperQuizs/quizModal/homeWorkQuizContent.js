@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Table} from 'antd';
+import {Table, Row, Col, Input} from 'antd';
 import {connect} from 'react-redux';
 import * as homeWorkQuizAction from '../../../actions/homeWorkQuiz';
 
@@ -54,11 +54,23 @@ class homeWorkQuizContent extends Component {
             hideDefaultSelections: true
         };
         return (
-            <Table bordered hover striped
-                   rowSelection={rowSelection}
-                   dataSource={this.props.homeWorkQuiz}
-                   columns={columns}
-                   pagination={false}/>
+            <div>
+                <div className="search">
+                    <Row>
+                        <Col span={3}>
+                            <span>搜索</span>
+                        </Col>
+                        <Col span={14}>
+                            <Input placeholder="请至少输入3个字符"/>
+                        </Col>
+                    </Row>
+                </div>
+                <Table bordered hover striped
+                       rowSelection={rowSelection}
+                       dataSource={this.props.homeWorkQuiz}
+                       columns={columns}
+                       pagination={false}/>
+            </div>
         )
     }
 }

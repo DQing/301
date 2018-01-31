@@ -4,6 +4,7 @@ import * as data from '../../../constant/data';
 import HomeWorkQuizContent from './homeWorkQuizContent';
 import SubjectQuizContent from './subjectQuizContent';
 import BasicQuizContent from './basicQuizContent';
+import '../../../style/sectionModal.less';
 
 class sectionModal extends Component {
     constructor(props) {
