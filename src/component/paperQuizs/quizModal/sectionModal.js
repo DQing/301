@@ -51,7 +51,6 @@ class sectionModal extends Component {
             title={title}
             visible={visible}
             destroyOnClose={true}
-            z-Index={-1}
             width="598px"
             onOk={this.handleOk.bind(this)}
             onCancel={this.handleCancel.bind(this)}>

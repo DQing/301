@@ -38,6 +38,9 @@ class bottomContent extends Component {
 
     handleCancel(index) {
         this.state.sectionList[index].modalVisible = false;
+        this.setState({
+            sectionList: this.state.sectionList
+        })
     }
 
     inputChange(index, e) {
@@ -64,6 +67,18 @@ class bottomContent extends Component {
         this.setState({
             sectionList: sectionList
         })
+    }
+
+    onDeleteSectionQuiz(index, quizzes) {
+        const sectionList = this.state.sectionList;
+        quizzes.splice(index, 1);
+        this.setState({
+            sectionList: sectionList
+        })
+    }
+
+    onModifySectionQuiz() {
+
     }
 
     addSection() {
@@ -128,10 +143,18 @@ class bottomContent extends Component {
                                     <div className="add-topics">
                                         {
                                             this.state.sectionList[index].quizzes ?
-                                                this.state.sectionList[index].quizzes.map((item, index) => {
-                                                    return <div className="topic" key={index}>
+                                                this.state.sectionList[index].quizzes.map((item, itemIndex) => {
+                                                    return <div className="topic" key={itemIndex}>
                                                         <p className="title"><span>{item.title}</span></p>
                                                         <p className="stack"><span>{item.stack}</span></p>
+                                                        <p className="delete">
+                                                            <Icon type="delete"
+                                                                  onClick={this.onDeleteSectionQuiz.bind(this, itemIndex, this.state.sectionList[index].quizzes)}/>
+                                                        </p>
+                                                        <p className="modify">
+                                                            <Icon type="setting"
+                                                                  onClick={this.onModifySectionQuiz.bind(this, itemIndex, this.state.sectionList[index].quizzes)}/>
+                                                        </p>
                                                     </div>
                                                 }) : ''
                                         }
