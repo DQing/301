@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {Modal, Table} from 'antd';
-import * as quiz from '../../../constant/data';
+import {connect} from 'react-redux';
+import * as homeWorkQuizAction from '../../../actions/homeWorkQuiz';
 
-class homeQuizModal extends Component {
+class homeWorkQuizModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,7 +12,7 @@ class homeQuizModal extends Component {
     }
 
     componentDidMount() {
-
+        // this.props.getHomeWorkQuiz();
     }
 
     handleOk() {
@@ -66,7 +67,7 @@ class homeQuizModal extends Component {
                 onCancel={this.handleCancel.bind(this)}>
                 <Table bordered hover striped
                        rowSelection={rowSelection}
-                       dataSource={quiz.homeworkQuiz}
+                       dataSource={this.props.homeWorkQuiz}
                        columns={columns}
                        pagination={false}/>
             </Modal>
@@ -74,8 +75,9 @@ class homeQuizModal extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => ({homeWorkQuiz: state.homeWorkQuiz});
+const mapDispatchToProps = dispatch => ({
+    getHomeWorkQuiz: () => dispatch(homeWorkQuizAction.getHomeWorkQuiz())
+});
 
-}
-
-export default homeQuizModal;
+export default connect(mapStateToProps, mapDispatchToProps)(homeWorkQuizModal);

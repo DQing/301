@@ -18,7 +18,7 @@ class TopContent extends Component {
     }
 
     componentDidMount() {
-
+        // this.props.getProgram();
     }
 
     onHandleChange() {
