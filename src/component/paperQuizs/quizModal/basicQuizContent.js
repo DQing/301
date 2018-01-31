@@ -140,7 +140,7 @@ class basisQuizContent extends Component {
     render() {
         const {quizType} = this.state;
         return (
-            <div>
+            <div className="basicQuizContent">
                 <div>
                     <RadioGroup name="radioGroup" onChange={this.selectQuizType.bind(this)} value={quizType}>
                         <Radio value="blank">填空题</Radio>
