@@ -10,7 +10,7 @@ export const refreshProgramList = program => ({
 export const getProgram = () => {
     return dispatch => {
         (async () => {
-            const res = await request.get(`/api/programs`);
+            const res = await request.get(`../api`);
             if (res.status === HTTP_CODE.OK) {
                 dispatch(refreshProgramList(res.body))
             }

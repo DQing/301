@@ -1,4 +1,4 @@
-const initState = ['test1', 'test2', 'test3'];
+const initState = [{_id: "1", title: "test"}];
 
 export default (state = initState, action) => {
     switch (action.type) {

@@ -18,7 +18,7 @@ class TopContent extends Component {
     }
 
     componentDidMount() {
-        // this.props.getProgram();
+        this.props.getProgram();
     }
 
     onHandleChange() {
@@ -29,7 +29,6 @@ class TopContent extends Component {
     }
 
     render() {
-
         const {getFieldDecorator} = this.props.form;
         const formItemLayout = {
             labelCol: {
@@ -76,7 +75,7 @@ class TopContent extends Component {
                         <Select className="form-control">
                             {
                                 program.map((item, index) => {
-                                    return <Option value={item} key={index}>{item}</Option>
+                                    return <Option value={item._id} key={index}>{item.title}</Option>
 
                                 })
                             }

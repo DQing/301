@@ -17,7 +17,7 @@ export const get = async (url) => {
       })
     });
 
-    if (!res.ok) {
+      if (!res.ok) {
       return errHandler(res)
     }
 
