@@ -3,7 +3,7 @@ var router = express.Router();
 var Program = require('../modal/Program');
 
 /* GET home page. */
-router.get('/api', function (req, res, next) {
+router.get('/api/programs', function (req, res, next) {
 
     Program.find({}, (err, data) => {
         if (err) {
