@@ -1,16 +1,7 @@
 var express = require('express');
 var router = express.Router();
-var Program = require('../modal/Program');
+var programController = require('../controller/programController');
 
-/* GET home page. */
-router.get('/api/programs', function (req, res, next) {
-
-    Program.find({}, (err, data) => {
-        if (err) {
-            console.log('error')
-        }
-        res.send(Object.assign(data, {status: 200}));
-    });
-});
+router.get('/api/programs', programController.getPrograms);
 
 module.exports = router;

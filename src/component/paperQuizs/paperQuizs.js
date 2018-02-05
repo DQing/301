@@ -116,18 +116,17 @@ class bottomContent extends Component {
                 {
                     this.state.sectionList.map((item, index) => {
                         return <div className="section" key={index}>
-                            <Card extra={<span>
-                                {input ? '' : <Icon type="form" onClick={this.onClickForm.bind(this)}/>}
-                                <Icon type="delete" onClick={this.onDeleteSection.bind(this, index)}/>
-                                </span>}>
-                                {
-                                    input ? <Input type="text" id="input-title"
-                                                   onChange={this.inputChange.bind(this, index)}
-                                                   onBlur={this.inputOnBlur.bind(this)}
-                                                   value={item.quizTitle}/> :
-                                        <span className="quizType">{item.quizTitle}</span>
+                            <Card title={
+                                input ? <Input type="text" id="input-title"
+                                               onChange={this.inputChange.bind(this, index)}
+                                               onBlur={this.inputOnBlur.bind(this)}
+                                               value={item.quizTitle}/> :
+                                    <span>
+                                        <span>{item.quizTitle}</span>
+                                        <Icon type="form" onClick={this.onClickForm.bind(this)}/>
+                                    </span>}
 
-                                }
+                                  extra={<Icon type="delete" onClick={this.onDeleteSection.bind(this, index)}/>}>
 
                                 <div className="topic-list">
                                     <div className="add-button">
