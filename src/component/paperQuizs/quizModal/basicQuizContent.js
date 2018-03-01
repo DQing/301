@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Row, Col, Radio, Input, Checkbox} from 'antd';
 import '../../../style/basicQuizContent.less';
+import index from "../../../reducers/index";
 
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
@@ -11,13 +12,16 @@ class basisQuizContent extends Component {
         super(props);
         this.state = {
             quizType: '',
-            description: ''
+            description: '',
+            answer: '',
+            options: [],
+            checkedList: [],
         };
     }
 
     handleInput(quizType, e) {
         let value = {};
-        const {description} = this.state;
+        const {description, options} = this.state;
         if (quizType === '' || description === '') {
             this.props.getQuizData({});
             return;
@@ -28,36 +32,32 @@ class basisQuizContent extends Component {
                 "title": description,
                 "stack": "填空题",
                 "answer": e.target.value
-            }
+            };
+            this.setState({
+                answer: e.target.value
+            })
         } else if (quizType === 'radio') {
             value = {
                 "type": "radio",
                 "title": description,
                 "stack": "单选题",
-                "options": [
-                    "a",
-                    "b",
-                    "c",
-                    "d"
-                ],
-                "answer": "a"
-            }
+                "options": options,
+                "answer": e.target.value
+            };
+            this.setState({
+                answer: e.target.value,
+            })
         } else if (quizType === 'checkbox') {
             value = {
-                "type": "multipleChoice",
+                "type": "checkbox",
                 "title": description,
                 "stack": "多选题",
-                "options": [
-                    "a",
-                    "b",
-                    "c",
-                    "d"
-                ],
-                "answer": [
-                    "a",
-                    "b"
-                ]
-            }
+                "options": options,
+                "answer": e
+            };
+            this.setState({
+                checkedList: e
+            })
         }
         this.props.getQuizData(value);
     }
@@ -71,19 +71,82 @@ class basisQuizContent extends Component {
     }
 
     handleTextArea(e) {
-        const {value} = e.target || '';
+        const description = e.target.value || '';
+        const {quizType, answer, options, checkedList} = this.state;
         this.setState({
-            description: value
+            description: description
+        });
+
+        let value = {};
+
+        if (quizType === '' || description === '') {
+            this.props.getQuizData({});
+            return;
+        }
+        if (quizType === 'blank') {
+            value = {
+                "type": "blank",
+                "title": description,
+                "stack": "填空题",
+                "answer": answer
+            };
+        } else if (quizType === 'radio') {
+            value = {
+                "type": "radio",
+                "title": description,
+                "stack": "单选题",
+                "options": options,
+                "answer": answer
+            }
+        } else if (quizType === 'checkbox') {
+            value = {
+                "type": "checkbox",
+                "title": description,
+                "stack": "多选题",
+                "options": options,
+                "answer": checkedList
+            }
+        }
+        this.props.getQuizData(value);
+    }
+
+    componentDidMount() {
+        const {isModify, result} = this.props;
+        debugger
+        if (isModify) {
+            this.setState({
+                quizType: result.type,
+                description: result.title,
+                answer: result.answer,
+                checkedList: result.answer,
+                options: result.options
+            });
+        }
+
+    }
+
+    handleOptions(index, e) {
+        const value = e.target.value || '';
+        let options = this.state.options;
+        const {isModify} = this.props;
+        if (isModify) {
+            options[index] = value;
+        }
+        options.push(value);
+        this.setState({
+            options: options
         });
     }
 
     renderBasicQuiz(quizType) {
+        const optionsValue = ['a', 'b', 'c', 'd'];
         if (quizType === 'blank') {
             return <div className="blank">
                 <Row>
                     <Col span={3} offset={2}>答案</Col>
                     <Col span={16}>
-                        <Input placeholder="答案" onChange={this.handleInput.bind(this, quizType)}/>
+                        <Input placeholder="答案" value={this.state.answer}
+                               onChange={this.handleInput.bind(this, quizType)}/>
                     </Col>
                 </Row>
             </div>
@@ -93,20 +156,17 @@ class basisQuizContent extends Component {
                     <Col span={3} offset={2}>选项</Col>
                     <Col span={16}>
                         <RadioGroup name="radioGroup"
+                                    value={this.state.answer}
                                     onChange={this.handleInput.bind(this, quizType)}
                                     className="options">
-                            <Radio value="1">
-                                <Input placeholder="选项描述"/>
-                            </Radio>
-                            <Radio value="2">
-                                <Input placeholder="选项描述"/>
-                            </Radio>
-                            <Radio value="3">
-                                <Input placeholder="选项描述"/>
-                            </Radio>
-                            <Radio value="4">
-                                <Input placeholder="选项描述"/>
-                            </Radio>
+                            {
+                                optionsValue.map((item, index) => {
+                                    return <Radio value={item}>
+                                        <Input placeholder="选项描述" onChange={this.handleOptions.bind(this, index)}
+                                               value={this.state.options[index]}/>
+                                    </Radio>
+                                })
+                            }
                         </RadioGroup>
                     </Col>
                 </Row>
@@ -116,19 +176,14 @@ class basisQuizContent extends Component {
                 <Row>
                     <Col span={3} offset={2}>选项</Col>
                     <Col span={16}>
-                        <CheckboxGroup onChange={this.handleInput.bind(this, quizType)}>
-                            <Checkbox value="1">
-                                <Input placeholder="选项描述"/>
-                            </Checkbox>
-                            <Checkbox value="2">
-                                <Input placeholder="选项描述"/>
-                            </Checkbox>
-                            <Checkbox value="3">
-                                <Input placeholder="选项描述"/>
-                            </Checkbox>
-                            <Checkbox value="4">
-                                <Input placeholder="选项描述"/>
-                            </Checkbox>
+                        <CheckboxGroup value={this.state.checkedList} onChange={this.handleInput.bind(this, quizType)}>
+                            {
+                                optionsValue.map((item, index) => {
+                                    return <Checkbox value={item}>
+                                        <Input placeholder="选项描述" onChange={this.handleOptions.bind(this, index)}/>
+                                    </Checkbox>
+                                })
+                            }
                         </CheckboxGroup>
                     </Col>
                 </Row>
@@ -138,7 +193,7 @@ class basisQuizContent extends Component {
     }
 
     render() {
-        const {quizType} = this.state;
+        const {quizType, description} = this.state;
         return (
             <div className="basicQuizContent">
                 <div>
@@ -151,7 +206,8 @@ class basisQuizContent extends Component {
                 <Row>
                     <Col span={3} offset={2}>描述</Col>
                     <Col span={16}>
-                        <TextArea placeholder="描述" onChange={this.handleTextArea.bind(this)}/>
+                        <TextArea placeholder="描述" value={description}
+                                  onChange={this.handleTextArea.bind(this)}/>
                     </Col>
                 </Row>
 

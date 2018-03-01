@@ -43,8 +43,6 @@ class sectionModal extends Component {
         const {sectionList, index, isModify} = this.props;
         if (quizType === 'homeworkQuiz') {
             return <HomeWorkQuizContent quizzes={sectionList[index].quizzes}
-                                        isModify={isModify}
-                                        result={this.state.result}
                                         getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'subjectQuiz') {
@@ -53,7 +51,10 @@ class sectionModal extends Component {
                                        getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'basicQuiz') {
-            return <BasicQuizContent getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
+            return <BasicQuizContent
+                isModify={isModify}
+                result={this.state.result}
+                getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
         }
         return '';
 
