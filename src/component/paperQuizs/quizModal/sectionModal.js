@@ -10,7 +10,8 @@ class sectionModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectTopics: []
+            selectTopics: [],
+            result: ''
         };
 
     }
@@ -29,25 +30,26 @@ class sectionModal extends Component {
         })
     }
 
-    modifyContent() {
-        const {sectionList, index, itemIndex, isModify} = this.props;
-        let result = {};
+    componentWillReceiveProps(nextProps) {
+        const {sectionList, index, itemIndex, isModify} = nextProps;
         if (isModify) {
-            return result = sectionList[index].quizzes[itemIndex]
+            this.setState({
+                result: sectionList[index].quizzes[itemIndex]
+            });
         }
-        return result;
     }
 
     renderModalContent(quizType) {
         const {sectionList, index, isModify} = this.props;
-        const result = this.modifyContent();
         if (quizType === 'homeworkQuiz') {
             return <HomeWorkQuizContent quizzes={sectionList[index].quizzes}
+                                        isModify={isModify}
+                                        result={this.state.result}
                                         getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'subjectQuiz') {
             return <SubjectQuizContent isModify={isModify}
-                                       result={result}
+                                       result={this.state.result}
                                        getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'basicQuiz') {

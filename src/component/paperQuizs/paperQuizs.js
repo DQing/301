@@ -86,7 +86,6 @@ class bottomContent extends Component {
         })
     }
 
-    //TODO 修改sectionQuiz
     onModifySectionQuiz(index, section) {
         section.modalVisible = true;
         this.setState({
