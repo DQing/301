@@ -17,7 +17,9 @@ class bottomContent extends Component {
             quizTitle: '',
             quizType: '',
             input: false,
-            sectionList: []
+            sectionList: [],
+            isModify: false,
+            itemIndex: 0
         }
     }
 
@@ -29,7 +31,13 @@ class bottomContent extends Component {
     }
 
     handleOk(selectTopics, index) {
-        this.state.sectionList[index]['quizzes'].push(selectTopics);
+        const itemIndex = this.state.itemIndex;
+        if (this.state.isModify) {
+            this.state.sectionList[index]['quizzes'][itemIndex] = selectTopics;
+            this.state.isModify = false;
+        } else {
+            this.state.sectionList[index]['quizzes'].push(selectTopics);
+        }
         this.state.sectionList[index].modalVisible = false;
         this.setState({
             sectionList: this.state.sectionList
@@ -65,7 +73,8 @@ class bottomContent extends Component {
         const sectionList = this.state.sectionList;
         sectionList.splice(index, 1);
         this.setState({
-            sectionList: sectionList
+            sectionList: sectionList,
+            isModify: true
         })
     }
 
@@ -78,8 +87,13 @@ class bottomContent extends Component {
     }
 
     //TODO 修改sectionQuiz
-    onModifySectionQuiz() {
-
+    onModifySectionQuiz(index, section) {
+        section.modalVisible = true;
+        this.setState({
+            sectionList: this.state.sectionList,
+            isModify: true,
+            itemIndex: index
+        })
     }
 
     addSection() {
@@ -135,18 +149,18 @@ class bottomContent extends Component {
                                     </div>
                                     <div className="add-topics">
                                         {
-                                            this.state.sectionList[index].quizzes ?
-                                                this.state.sectionList[index].quizzes.map((item, itemIndex) => {
+                                            item.quizzes ?
+                                                item.quizzes.map((quiz, itemIndex) => {
                                                     return <div className="topic" key={itemIndex}>
-                                                        <p className="title"><span>{item.title}</span></p>
-                                                        <p className="stack"><span>{item.stack}</span></p>
+                                                        <p className="title"><span>{quiz.title}</span></p>
+                                                        <p className="stack"><span>{quiz.stack}</span></p>
                                                         <p className="delete">
                                                             <Icon type="delete"
-                                                                  onClick={this.onDeleteSectionQuiz.bind(this, itemIndex, this.state.sectionList[index].quizzes)}/>
+                                                                  onClick={this.onDeleteSectionQuiz.bind(this, itemIndex, item.quizzes)}/>
                                                         </p>
                                                         <p className="modify">
                                                             <Icon type="setting"
-                                                                  onClick={this.onModifySectionQuiz.bind(this, itemIndex, this.state.sectionList[index].quizzes)}/>
+                                                                  onClick={this.onModifySectionQuiz.bind(this, itemIndex, item)}/>
                                                         </p>
                                                     </div>
                                                 }) : ''
@@ -158,7 +172,9 @@ class bottomContent extends Component {
                                                       sectionList={this.state.sectionList}
                                                       handleOk={(selectTopics, index) => this.handleOk(selectTopics, index)}
                                                       handleCancel={(index) => this.handleCancel(index)}
-                                                      index={index}/>
+                                                      index={index}
+                                                      itemIndex={this.state.itemIndex}
+                                                      isModify={this.state.isModify}/>
                                     </div>
                                 </div>
                             </Card>

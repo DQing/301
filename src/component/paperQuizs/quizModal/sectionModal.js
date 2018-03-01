@@ -29,14 +29,26 @@ class sectionModal extends Component {
         })
     }
 
+    modifyContent() {
+        const {sectionList, index, itemIndex, isModify} = this.props;
+        let result = {};
+        if (isModify) {
+            return result = sectionList[index].quizzes[itemIndex]
+        }
+        return result;
+    }
+
     renderModalContent(quizType) {
-        const {sectionList, index} = this.props;
+        const {sectionList, index, isModify} = this.props;
+        const result = this.modifyContent();
         if (quizType === 'homeworkQuiz') {
             return <HomeWorkQuizContent quizzes={sectionList[index].quizzes}
                                         getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'subjectQuiz') {
-            return <SubjectQuizContent getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
+            return <SubjectQuizContent isModify={isModify}
+                                       result={result}
+                                       getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
 
         } else if (quizType === 'basicQuiz') {
             return <BasicQuizContent getQuizData={(selectTopics) => this.getQuizData(selectTopics)}/>
